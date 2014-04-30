@@ -20,7 +20,7 @@ namespace InternalNotification
         private readonly System.Timers.Timer _timer = new System.Timers.Timer(1800000);
         private readonly System.Timers.Timer _msgTimer = new System.Timers.Timer(1200000);
         private static List<string> _msgs = new List<string>(); 
-        private static object _locker = new object();
+        private static readonly object _locker = new object();
         private static readonly PopupNotifier p = new PopupNotifier(Iprojecturi);
         private const string ContentText =
             "Please goto IProject and update your timesheet.\r\nIf something is preventing this then please contact your manager or SO - HelpDesk.";
@@ -82,7 +82,6 @@ namespace InternalNotification
             }
         }
 
-
         private void ExecuteSecure(Action a)
         {
             
@@ -97,14 +96,12 @@ namespace InternalNotification
             return list.Any(humanTimesheet => humanTimesheet.EmailAddress.ToLower() == CurrentUser.ToLower());
         }
 
-        
-
         private static IEnumerable<string> GetMessages()
         {
             try
             {
                 var wC = new WebClient();
-                var result = wC.DownloadString("http://psodata1:8091/AnnualReviewService/json/GetBroadcastMessage");
+                var result = wC.DownloadString("http://psodata1:8091/AnnualReviewService/json/GetBroadcastMessage?user="+ CurrentUser);
 
                 return JsonConvert.DeserializeObject<List<string>>(result);
             }
