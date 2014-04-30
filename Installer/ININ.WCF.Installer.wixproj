@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.6</ProductVersion>
+    <ProjectGuid>0dc6e10f-e051-4cc9-a31b-2875556a7fbe</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>TimeSheetNotification</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <Name>ININ.WCF.Installer</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug;EmeritusWDRFilesDir=$(SolutionDir)InternalNotification\bin\debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>EmeritusWDRFilesDir=$(SolutionDir)ININ.WCF.SelfHost\bin\Release;</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Fragments\FilesFragment.wxs" />
+    <Compile Include="Product.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fragments\" />
+    <Folder Include="Includes\" />
+    <Folder Include="Lang\" />
+    <Folder Include="Lang\en-us\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Filter.xslt" />
+    <Content Include="Fragments\.p4ignore.txt" />
+    <Content Include="Includes\AnnualReviewWDRInstallerVariables.wxi" />
+    <Content Include="Lang\en-us\license.rtf" />
+    <Content Include="Resources\banner.bmp" />
+    <Content Include="Resources\dialog.bmp" />
+    <Content Include="Resources\I3Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Lang\en-us\Loc_en-us.wxl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <PropertyGroup>
+    <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(ProjectDir)..\InternalNotification\bin\$(ConfigurationName)" -cg InternalNotification -gg -scom -sreg -sfrag -srd -dr INSTALLFOLDER -var "var.EmeritusWDRFilesDir" -out "$(ProjectDir)Fragments\FilesFragment.wxs" -t "$(SolutionDir)Installer\Filter.xslt"</PreBuildEvent>
+  </PropertyGroup>
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

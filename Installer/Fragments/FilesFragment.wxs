@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Component Id="cmp43D99EF6055110D555EEF3DA7BF8C2C9" Guid="{4C87A183-D22F-4581-93A7-BF02F426A36B}">
+                <File Id="fil8BC671D0ABAD0629008F873CC6A0F56E" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\ace-w32r-1-2.dll" />
+            </Component>
+            <Component Id="cmp2210336697BCDB1020097829E717B585" Guid="{076F6BFE-E871-42E2-A32A-1762DB4D27E8}">
+                <File Id="fil9BC9B16766569B76580C686B4A3E506D" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\core_events-w32r-1-2.dll" />
+            </Component>
+            <Component Id="cmp4A66A3E50399933AC5C97B915289B0F5" Guid="{6FA1BFE8-660A-4572-8C69-A76DD7628A90}">
+                <File Id="fil0C7C9F19D92447DA82ECC76A9994D5C2" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\i3core-w32r-1-2.dll" />
+            </Component>
+            <Component Id="cmp52571A7EC417D2F4CA7FBAAD4C390037" Guid="{3A07C224-5707-4910-864D-33322EFE9FCD}">
+                <File Id="fil9149FD796A1AB7F84D3EB47B16C5B8CF" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\i3eventlog-w32r-1-2.dll" />
+            </Component>
+            <Component Id="cmpE51EEB299AA2EB079F65AE391A5B1F29" Guid="{55BF92C7-2705-4C8C-852A-3A59E1CC3AA9}">
+                <File Id="fil00EE7866C8F2A8B1C2C6E889A5B861B4" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\i3moduleregistry-w32.dll" />
+            </Component>
+            <Component Id="cmpF1D3EF024FCDDE4D14150A7F7DEC8E18" Guid="{88ABD0A6-A832-4C39-81BD-E97EAFCB5110}">
+                <File Id="fil227D1C0BD917C4D20FB8443302177015" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\i3trace-w32r-1-2.dll" />
+            </Component>
+            <Component Id="cmp79F5D194DDCF017E6D27F18FA14F704E" Guid="{D2EC099B-50B7-4328-A9E8-D3BD235950D7}">
+                <File Id="fil03CDD849E27FC214FD9AE19D23525EAF" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\i3trace_dotnet_tracing-w32r-1-2.dll" />
+            </Component>
+            
+            <Component Id="cmpA948DEA93B448FA0A853EB4DBE676182" Guid="{E8F9674A-3BA1-44C0-85EE-BA25E1CF1402}">
+                <File Id="filFF482BD489083762AC087209A46BB1A2" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\i3trace_dotnet_tracing_interop-w32r-1-2.dll" />
+            </Component>
+            <Component Id="cmp293D7F7EC184FA7A7CF7D726560B8813" Guid="{E1FBF784-3655-40E4-8056-D096F9C511E7}">
+                <File Id="filC0953518F1E9A2FEE5BD71C34D1C028A" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\ININ.WCF.Tracing.dll" />
+            </Component>
+            
+            
+            <Component Id="cmpDCEAD100A981382A8C03C74CEFF49C40" Guid="{FFF8420E-B9FC-404A-8858-F7BD4D2D3C73}">
+                <File Id="fil17303B2739F80A287537230EC8CF8D00" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\InternalNotification.exe.config" />
+            </Component>
+            
+            
+            
+            
+            <Component Id="cmpBC4FC00A26E7D32479D42D3411317FC5" Guid="{4D9104A2-1DBF-4937-A180-D286F287EB52}">
+                <File Id="fil90A8AAD9FC612906D405476D61CEA3F4" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\Newtonsoft.Json.dll" />
+            </Component>
+            
+            <Component Id="cmp4DF74861EF0283186D6E12044CEA5CC2" Guid="{22E81350-9060-41AF-B1B5-2A4A21B4FBC7}">
+                <File Id="fil4E295169FA891733225B616539E3A7F0" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\openssl-w32r-1-2.dll" />
+            </Component>
+            <Component Id="cmp552840EF21C1AC9C8AFAD007E315B14E" Guid="{664AACFD-AE54-43E8-AE48-0D2273F663AE}">
+                <File Id="fil7D85E4F2CEB30BC28CF4635FE159E450" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\stlport-w32r-1-2.dll" />
+            </Component>
+            <Component Id="cmpB760F1B656D8E942F9B88381738378A8" Guid="{B029EEDC-4C26-4910-93CF-7D3751C6E7B2}">
+                <File Id="filB998969DA7CBF77F5CBB5AF98DF828C0" KeyPath="yes" Source="$(var.EmeritusWDRFilesDir)\TimeSheetMonitor.dll" />
+            </Component>
+            
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="InternalNotification">
+            <ComponentRef Id="cmp43D99EF6055110D555EEF3DA7BF8C2C9" />
+            <ComponentRef Id="cmp2210336697BCDB1020097829E717B585" />
+            <ComponentRef Id="cmp4A66A3E50399933AC5C97B915289B0F5" />
+            <ComponentRef Id="cmp52571A7EC417D2F4CA7FBAAD4C390037" />
+            <ComponentRef Id="cmpE51EEB299AA2EB079F65AE391A5B1F29" />
+            <ComponentRef Id="cmpF1D3EF024FCDDE4D14150A7F7DEC8E18" />
+            <ComponentRef Id="cmp79F5D194DDCF017E6D27F18FA14F704E" />
+            
+            <ComponentRef Id="cmpA948DEA93B448FA0A853EB4DBE676182" />
+            <ComponentRef Id="cmp293D7F7EC184FA7A7CF7D726560B8813" />
+            
+            
+            <ComponentRef Id="cmpDCEAD100A981382A8C03C74CEFF49C40" />
+            
+            
+            
+            
+            <ComponentRef Id="cmpBC4FC00A26E7D32479D42D3411317FC5" />
+            
+            <ComponentRef Id="cmp4DF74861EF0283186D6E12044CEA5CC2" />
+            <ComponentRef Id="cmp552840EF21C1AC9C8AFAD007E315B14E" />
+            <ComponentRef Id="cmpB760F1B656D8E942F9B88381738378A8" />
+            
+        </ComponentGroup>
+    </Fragment>
+</Wix>
