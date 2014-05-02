@@ -17,16 +17,17 @@ namespace InternalNotification
         private static string CurrentUser { get { return string.Format("{0}@inin.com", Environment.UserName); } }
         private const string Iprojecturi = "https://iproject.inin.com/";
         private const string TitleText = "You Have Outstanding Timesheets!";
-        private readonly System.Timers.Timer _timer = new System.Timers.Timer(1800000);
-        private readonly System.Timers.Timer _msgTimer = new System.Timers.Timer(1200000);
-        private static List<string> _msgs = new List<string>(); 
-        private static readonly object _locker = new object();
+        private static readonly System.Timers.Timer _mainTimer = new System.Timers.Timer(1800000);
+        private static readonly System.Timers.Timer _settingsTimer = new System.Timers.Timer(300000);
+        private static readonly System.Timers.Timer _msgTimer = new System.Timers.Timer(1200000);
+        private static List<string> _msgs = new List<string>();
+        private static DateTime _lastUpdated;
+        private static readonly object Locker = new object();
         private static readonly PopupNotifier p = new PopupNotifier(Iprojecturi);
         private const string ContentText =
             "Please goto IProject and update your timesheet.\r\nIf something is preventing this then please contact your manager or SO - HelpDesk.";
 
-        private const string ManagerConentText =
-            "You Have the following outstanding timesheets!! \r\n";
+        private const string ManagerConentText = "You Have the following outstanding timesheets!! \r\n";
 
 
         public Form1()
@@ -34,11 +35,14 @@ namespace InternalNotification
             try
             {
                 InitializeComponent();
-                _timer.Elapsed += TimerOnElapsed;
+                _lastUpdated = DateTime.Now;
+                _mainTimer.Elapsed += TimerOnElapsed;
                 _msgTimer.Elapsed += MsgTimerOnElapsed;
+                _settingsTimer.Elapsed += SettingsTimerOnElapsed;
+                
                 _msgTimer.Enabled = true;
-
-                _timer.Enabled = true;
+                _settingsTimer.Enabled = true;
+                _mainTimer.Enabled = true;
 
                 var t = Task.Factory.StartNew(() => TimerOnElapsed(null, null));
             }
@@ -46,12 +50,31 @@ namespace InternalNotification
             {}
         }
 
+        private static void SettingsTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+            try
+            {
+                _settingsTimer.Enabled = false;
+                
+                var settings = GetSettings();
+                ProcessSettings(settings);
+            }
+            catch (Exception)
+            {}
+
+            finally
+            {
+                _settingsTimer.Enabled = true;
+            }
+
+        }
+
         private void MsgTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
             try
             {
                 _msgTimer.Enabled = false;
-                lock(_locker)
+                lock(Locker)
                     _msgs.AddRange(GetMessages());
                 if (_msgs.Any())
                     ExecuteSecure(ShowMessages);
@@ -69,7 +92,7 @@ namespace InternalNotification
         {
             try
             {
-                _timer.Enabled = false;
+                _mainTimer.Enabled = false;
                 if (HasOutstandingTimesheet(GetTimeSheets()))
                     ExecuteSecure(ShowToast);
             }
@@ -78,7 +101,7 @@ namespace InternalNotification
             }
             finally
             {
-                _timer.Enabled = true;
+                _mainTimer.Enabled = true;
             }
         }
 
@@ -110,6 +133,32 @@ namespace InternalNotification
                 return null;
             }
 
+        }
+
+        private static Dictionary<string,string> GetSettings()
+        {
+            try
+            {
+                var wC = new WebClient();
+                var result = wC.DownloadString("http://psodata1:8091/AnnualReviewService/json/GetSettings?user=" + CurrentUser);
+
+                return JsonConvert.DeserializeObject<Dictionary<string,string>>(result);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        private static void ProcessSettings(Dictionary<string, string> settings)
+        {
+            try
+            {
+                
+            }
+            catch(Exception)
+            {}
         }
 
         private static void ShowToast(string titleText, string contentText)
@@ -144,7 +193,7 @@ namespace InternalNotification
 
         private static void ShowMessages()
         {
-            lock (_locker)
+            lock (Locker)
             {
                 p.TitleText = "Broadcast Message!!";
                 p.BodyColor = Color.Green;
